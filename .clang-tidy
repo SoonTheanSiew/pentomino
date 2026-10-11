@@ -1,0 +1,69 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 SoonTheanSiew
+#
+# Naming rules for all C++ in the repository. CONTRIBUTING.md explains them.
+# Layout rules live in .clang-format.
+---
+Checks: >
+    -*,
+    readability-identifier-naming,
+    readability-identifier-length,
+    readability-magic-numbers,
+    modernize-use-override,
+    modernize-use-nullptr,
+    google-explicit-constructor,
+    google-global-names-in-headers
+WarningsAsErrors: '*'
+HeaderFilterRegex: '.*/(core|generator|cli|tests)/.*'
+CheckOptions:
+    # Types and functions: UpperCamelCase
+    readability-identifier-naming.NamespaceCase: CamelCase
+    readability-identifier-naming.ClassCase: CamelCase
+    readability-identifier-naming.StructCase: CamelCase
+    readability-identifier-naming.UnionCase: CamelCase
+    readability-identifier-naming.EnumCase: CamelCase
+    readability-identifier-naming.EnumConstantCase: CamelCase
+    readability-identifier-naming.TypeAliasCase: CamelCase
+    readability-identifier-naming.TypedefCase: CamelCase
+    readability-identifier-naming.TemplateParameterCase: CamelCase
+    readability-identifier-naming.FunctionCase: CamelCase
+    readability-identifier-naming.MethodCase: CamelCase
+    readability-identifier-naming.ConceptCase: CamelCase
+
+    # Variables and parameters: lowerCamelCase
+    readability-identifier-naming.ParameterCase: camelBack
+    readability-identifier-naming.LocalVariableCase: camelBack
+    readability-identifier-naming.LocalConstantCase: camelBack
+    readability-identifier-naming.VariableCase: camelBack
+
+    # Class data members, static ones included: m_lowerCamelCase. Public
+    # fields of plain data structs stay lowerCamelCase without the prefix.
+    readability-identifier-naming.ClassMemberCase: camelBack
+    readability-identifier-naming.ClassMemberPrefix: m_
+    readability-identifier-naming.PrivateMemberCase: camelBack
+    readability-identifier-naming.PrivateMemberPrefix: m_
+    readability-identifier-naming.ProtectedMemberCase: camelBack
+    readability-identifier-naming.ProtectedMemberPrefix: m_
+    readability-identifier-naming.PublicMemberCase: camelBack
+
+    # Named constants: UPPER_SNAKE_CASE
+    readability-identifier-naming.ConstexprVariableCase: UPPER_CASE
+    readability-identifier-naming.GlobalConstantCase: UPPER_CASE
+    readability-identifier-naming.StaticConstantCase: UPPER_CASE
+    readability-identifier-naming.ClassConstantCase: UPPER_CASE
+    readability-identifier-naming.MacroDefinitionCase: UPPER_CASE
+    readability-identifier-naming.MacroDefinitionPrefix: PENTO_
+
+    # Meaningful names: at least 3 characters, except loop counters i, j, k
+    # and id
+    readability-identifier-length.MinimumVariableNameLength: 3
+    readability-identifier-length.MinimumParameterNameLength: 3
+    readability-identifier-length.MinimumLoopCounterNameLength: 3
+    readability-identifier-length.IgnoredLoopCounterNames: '^[ijk]$'
+    readability-identifier-length.IgnoredVariableNames: '^id$'
+    readability-identifier-length.IgnoredParameterNames: '^id$'
+
+    # No hardcoded values: only 0 and 1 may appear as bare numbers
+    readability-magic-numbers.IgnoredIntegerValues: '1'
+    readability-magic-numbers.IgnorePowersOf2IntegerValues: false
+...

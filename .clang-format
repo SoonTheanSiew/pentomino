@@ -1,0 +1,39 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 SoonTheanSiew
+#
+# Layout rules for all C++ in the repository. CONTRIBUTING.md explains them.
+# Naming rules are checked by clang-tidy instead; see .clang-tidy.
+---
+Language: Cpp
+BasedOnStyle: Google
+Standard: Latest
+
+ColumnLimit: 80
+IndentWidth: 4
+ContinuationIndentWidth: 4
+UseTab: Never
+AccessModifierOffset: -4
+
+BreakBeforeBraces: Allman
+SpaceBeforeParens: ControlStatements
+
+DerivePointerAlignment: false
+PointerAlignment: Right
+ReferenceAlignment: Pointer
+
+AllowShortLambdasOnASingleLine: All
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Never
+AllowShortEnumsOnASingleLine: false
+
+NamespaceIndentation: None
+FixNamespaceComments: true
+
+SortIncludes: CaseSensitive
+IncludeBlocks: Regroup
+
+MaxEmptyLinesToKeep: 1
+...
