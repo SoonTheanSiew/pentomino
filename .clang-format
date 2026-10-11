@@ -12,7 +12,7 @@ ColumnLimit: 80
 IndentWidth: 4
 ContinuationIndentWidth: 4
 UseTab: Never
-AccessModifierOffset: -4
+AccessModifierOffset: -2
 
 BreakBeforeBraces: Allman
 SpaceBeforeParens: ControlStatements

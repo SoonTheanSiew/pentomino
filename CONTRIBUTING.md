@@ -12,6 +12,31 @@ the [README](README.md#build).
 | Tests cover the change | Add or update [GoogleTest](https://google.github.io/googletest/) tests for any change in behavior |
 | Style passes | `scripts/format.sh --check --names` exits 0 |
 
+## Commit messages
+
+```
+core: Add Status, the result type of every core call that can fail
+
+What changed and why, wrapped at 72 columns.
+```
+
+| Rule | Detail |
+| --- | --- |
+| Subject | `<component>: <Summary>`. Capital letter after the colon, imperative ("Add", not "Added"), no period |
+| Component | The part the commit touches, from the table below |
+| Body | What changed and why, wrapped at 72 columns |
+
+| Component | Covers |
+| --- | --- |
+| `core` | `core/` |
+| `generator` | `generator/`, when several stages change |
+| `loader`, `optimizer`, `emitter` | One generator stage |
+| `cli`, `ui`, `examples`, `scripts` | That directory |
+| `tests` | Tests only |
+| `build` | CMake files |
+| `doc` | `README.md`, `CONTRIBUTING.md`, `doc/` |
+| `style` | `.clang-format`, `.clang-tidy`, `.editorconfig` |
+
 ## Where code goes
 
 When you add code:
@@ -52,7 +77,7 @@ version 18 or newer. On Debian or Ubuntu:
 | Calls and call-like keywords | No space before `(`: `Run(value)`, `sizeof(T)`, `decltype(value)`, `static_assert(...)` |
 | Pointers and references | Attached to the name: `int *frame`, `const T &value` |
 | Short bodies | Only lambdas may stay on one line. Functions, `if`, loops and `case` never do |
-| Access specifiers | Flush with `class`: `public:` at the class's indentation |
+| Access specifiers | 2 spaces in from `class`, members 4 spaces in. See the example below |
 | Namespaces | No extra indentation. The closing brace gets `// namespace Name` |
 | Includes | Sorted and grouped by the format script |
 | Blank lines | At most one in a row |
@@ -100,7 +125,7 @@ constexpr int MAX_RETRY_COUNT = 3;
 
 class FrameCounter
 {
-public:
+  public:
     using SPtr = std::shared_ptr<FrameCounter>;
     using UPtr = std::unique_ptr<FrameCounter>;
 
@@ -124,7 +149,7 @@ public:
         }
     }
 
-private:
+  private:
     int m_frameCount = 0;
 };
 
