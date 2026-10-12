@@ -4,13 +4,15 @@
 #
 # Apply and check the code style described in CONTRIBUTING.md.
 #
-#   scripts/format.sh                  format C++ in place, then check the rest
+#   scripts/format.sh                  format C++ and CMake in place, then
+#                                      check the rest
 #   scripts/format.sh --check          change nothing, exit 1 on any problem
 #   scripts/format.sh --names          also check naming with clang-tidy
 #   scripts/format.sh --check --names  what CI runs
 #
 # Steps:
 #   layout   clang-format with .clang-format (C++ only)
+#   cmake    gersemi with .gersemirc (CMake only)
 #   length   no line over 80 columns in C++, CMake and shell files. This
 #            catches what clang-format cannot wrap, like long strings
 #   files    C++ file names are UpperCamelCase, e.g. JsonLoader.hpp
@@ -24,6 +26,7 @@
 # Environment:
 #   CLANG_FORMAT   clang-format binary to use, e.g. clang-format-18
 #   CLANG_TIDY     clang-tidy binary to use
+#   GERSEMI        gersemi binary to use
 #   BUILD_DIR      build directory holding compile_commands.json (build)
 
 set -euo pipefail
@@ -82,6 +85,7 @@ else
 fi
 
 cppFiles=()
+cmakeFiles=()
 textFiles=()
 while IFS= read -r -d '' path; do
     [[ -f "$path" ]] || continue
@@ -90,7 +94,11 @@ while IFS= read -r -d '' path; do
             cppFiles+=("$path")
             textFiles+=("$path")
             ;;
-        *CMakeLists.txt | *.cmake | *.sh) textFiles+=("$path") ;;
+        *CMakeLists.txt | *.cmake)
+            cmakeFiles+=("$path")
+            textFiles+=("$path")
+            ;;
+        *.sh) textFiles+=("$path") ;;
     esac
 done < <(listFiles "${SOURCE_DIRS[@]}" CMakeLists.txt scripts)
 
@@ -117,6 +125,28 @@ if [[ ${#cppFiles[@]} -gt 0 ]]; then
         "$clangFormat" -i "${cppFiles[@]}"
         echo "format.sh: formatted ${#cppFiles[@]} files with" \
             "$("$clangFormat" --version | head -n1)"
+    fi
+fi
+
+# --- cmake ----------------------------------------------------------------
+if [[ ${#cmakeFiles[@]} -gt 0 ]]; then
+    gersemi="$(findTool "${GERSEMI:-}" gersemi)"
+    if [[ -z "$gersemi" ]]; then
+        echo "format.sh: gersemi not found. Install it or set GERSEMI." >&2
+        exit 2
+    fi
+
+    if $checkOnly; then
+        if "$gersemi" --check --diff "${cmakeFiles[@]}"; then
+            echo "format.sh: cmake ok in ${#cmakeFiles[@]} files"
+        else
+            echo "format.sh: cmake needs fixing; run scripts/format.sh" >&2
+            failed=true
+        fi
+    else
+        "$gersemi" --in-place --quiet "${cmakeFiles[@]}"
+        echo "format.sh: formatted ${#cmakeFiles[@]} files with" \
+            "gersemi $("$gersemi" --version | head -n1 | cut -d' ' -f2)"
     fi
 fi
 
@@ -178,7 +208,15 @@ else
 fi
 
 # --- names ----------------------------------------------------------------
-if $checkNames && [[ ${#cppFiles[@]} -gt 0 ]]; then
+# Headers are checked through the sources that include them, so with no
+# sources there is nothing to check (and no compile_commands.json either).
+sourceFiles=()
+for path in "${cppFiles[@]}"; do
+    [[ "$path" == *.cpp || "$path" == *.cc ]] && sourceFiles+=("$path")
+done
+if $checkNames && [[ ${#sourceFiles[@]} -eq 0 ]]; then
+    echo "format.sh: names skipped, no C++ sources"
+elif $checkNames; then
     clangTidy="$(findTool "${CLANG_TIDY:-}" \
         clang-tidy clang-tidy-19 clang-tidy-18)"
     buildDir="${BUILD_DIR:-build}"
@@ -193,11 +231,6 @@ if $checkNames && [[ ${#cppFiles[@]} -gt 0 ]]; then
         exit 2
     fi
 
-    # Headers are checked through the sources that include them.
-    sourceFiles=()
-    for path in "${cppFiles[@]}"; do
-        [[ "$path" == *.cpp || "$path" == *.cc ]] && sourceFiles+=("$path")
-    done
     # On macOS clang-tidy may not find the system headers by itself.
     tidyArgs=(--quiet -p "$buildDir")
     if [[ "$(uname)" == Darwin ]] && command -v xcrun >/dev/null 2>&1; then

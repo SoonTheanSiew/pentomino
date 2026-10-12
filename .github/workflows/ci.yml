@@ -21,6 +21,7 @@ jobs:
           wget -q https://apt.llvm.org/llvm.sh
           sudo bash llvm.sh 23
           sudo apt-get install -y ninja-build clang-format-23 clang-tidy-23
+          pipx install gersemi==0.29.2
 
       - name: Configure
         run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug

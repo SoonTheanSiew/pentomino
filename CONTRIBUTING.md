@@ -60,11 +60,21 @@ scripts/format.sh --check --names  # check everything, change nothing
 ```
 
 The rules below are configured in [`.clang-format`](.clang-format) and
-[`.clang-tidy`](.clang-tidy). Whatever the script cannot fix by itself, it
+[`.clang-tidy`](.clang-tidy), and the CMake layout in
+[`.gersemirc`](.gersemirc). Whatever the script cannot fix by itself, it
 reports, and you fix it by hand. `--names` needs the build directory to be
-configured first (`cmake -S . -B build`), no compiling needed. The tools need
-version 18 or newer. On Debian or Ubuntu:
-`sudo apt install clang-format clang-tidy`.
+configured first (`cmake -S . -B build`), no compiling needed.
+
+The tools need the same versions as CI, because other versions lay out code
+differently:
+
+| Tool | Version | Install on Debian or Ubuntu |
+| --- | --- | --- |
+| clang-format, clang-tidy | 23 | `sudo bash llvm.sh 23` ([apt.llvm.org](https://apt.llvm.org)), then `sudo apt install clang-format-23 clang-tidy-23` |
+| gersemi | 0.29.2 | `pipx install gersemi==0.29.2` |
+
+Set `CLANG_FORMAT=clang-format-23` and `CLANG_TIDY=clang-tidy-23` when the
+binaries have a version suffix.
 
 ### Layout
 

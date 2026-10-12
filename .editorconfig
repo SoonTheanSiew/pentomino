@@ -2,7 +2,7 @@
 # Copyright (c) 2026 SoonTheanSiew
 #
 # Editor defaults for every file type. CONTRIBUTING.md explains the rules;
-# scripts/format.sh checks the C++ ones.
+# scripts/format.sh checks the C++ and CMake ones.
 
 root = true
 

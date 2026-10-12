@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 SoonTheanSiew
+#
+# CMake layout for gersemi, run by scripts/format.sh. CONTRIBUTING.md
+# explains the rules.
+
+line_length: 80
+indent: 4
