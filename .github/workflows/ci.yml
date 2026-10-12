@@ -1,0 +1,38 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 SoonTheanSiew
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      # clang-format output differs between major versions, so CI uses the
+      # same major version as the development machines.
+      - name: Install tools
+        run: |
+          wget -q https://apt.llvm.org/llvm.sh
+          sudo bash llvm.sh 23
+          sudo apt-get install -y ninja-build clang-format-23 clang-tidy-23
+
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Check style
+        env:
+          CLANG_FORMAT: clang-format-23
+          CLANG_TIDY: clang-tidy-23
+        run: scripts/format.sh --check --names
