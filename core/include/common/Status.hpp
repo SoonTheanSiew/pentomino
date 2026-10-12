@@ -18,10 +18,12 @@ namespace Pento
 enum class [[nodiscard("a Status reports failures and must be checked")]] Status
 {
     Ok,
-    EndOfStream,  // finished normally, not an error
+    EndOfStream,  // a source has no more data, not an error
+    Aborted,      // stopped before the stream ended, not an error
 
     InvalidParam,      // a Config value the node cannot use
     InvalidInput,      // corrupt or unexpected data on an input
+    InvalidOperation,  // a call that is not allowed here, a bug in the caller
     Unsupported,       // the machine cannot do what the generator chose
     FileNotFound,      // a file or path does not exist
     PermissionDenied,  // a file or device exists but may not be opened
@@ -33,12 +35,21 @@ enum class [[nodiscard("a Status reports failures and must be checked")]] Status
     Timeout            // something did not answer in time
 };
 
-constexpr bool IsError(Status status)
-{
-    return status != Status::Ok && status != Status::EndOfStream;
-}
+// Neither Ok, EndOfStream nor Aborted.
+constexpr bool IsError(Status status);
 
 // For log messages. Only called when something is reported.
+constexpr std::string_view StatusName(Status status);
+
+// Constexpr functions are defined here, below the declarations, because
+// every caller needs to see them.
+
+constexpr bool IsError(Status status)
+{
+    return status != Status::Ok && status != Status::EndOfStream &&
+           status != Status::Aborted;
+}
+
 constexpr std::string_view StatusName(Status status)
 {
     switch (status)
@@ -47,10 +58,14 @@ constexpr std::string_view StatusName(Status status)
             return "Ok";
         case Status::EndOfStream:
             return "EndOfStream";
+        case Status::Aborted:
+            return "Aborted";
         case Status::InvalidParam:
             return "InvalidParam";
         case Status::InvalidInput:
             return "InvalidInput";
+        case Status::InvalidOperation:
+            return "InvalidOperation";
         case Status::Unsupported:
             return "Unsupported";
         case Status::FileNotFound:

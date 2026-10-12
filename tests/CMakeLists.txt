@@ -18,7 +18,7 @@ if(NOT GTest_FOUND)
     FetchContent_MakeAvailable(googletest)
 endif()
 
-add_executable(pento_tests core/payload/TestPayload.cpp)
+add_executable(pento_tests core/graph/TestEdge.cpp core/payload/TestPayload.cpp)
 target_link_libraries(
     pento_tests
     PRIVATE pento_core pento_warnings GTest::gtest_main
