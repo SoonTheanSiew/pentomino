@@ -14,23 +14,23 @@
 namespace Pento
 {
 
-struct SystemPlane
-{
-    const std::uint8_t *data = nullptr;
-    std::uint32_t pitch = 0;  // bytes per row
-};
+    struct SystemPlane
+    {
+        const std::uint8_t *data = nullptr;
+        std::uint32_t pitch = 0;  // bytes per row
+    };
 
-// A raw frame in CPU memory.
-struct SystemFrame
-{
-    using SPtr = std::shared_ptr<const SystemFrame>;
+    // A raw frame in CPU memory.
+    struct SystemFrame
+    {
+        using SPtr = std::shared_ptr<const SystemFrame>;
 
-    std::uint32_t fourcc = 0;
-    std::uint32_t width = 0;
-    std::uint32_t height = 0;
-    std::size_t planeCount = 0;
-    std::array<SystemPlane, MAX_PLANES> planes{};
-};
+        std::uint32_t fourcc = 0;
+        std::uint32_t width = 0;
+        std::uint32_t height = 0;
+        std::size_t planeCount = 0;
+        std::array<SystemPlane, MAX_PLANES> planes{};
+    };
 
 }  // namespace Pento
 

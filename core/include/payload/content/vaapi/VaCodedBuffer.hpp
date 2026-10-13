@@ -13,19 +13,19 @@
 namespace Pento
 {
 
-// One encoded frame in a VA coded buffer (VAEncCodedBufferType), as a VA
-// encoder writes it. Read the bytes with vaMapBuffer().
-struct VaCodedBuffer
-{
-    using SPtr = std::shared_ptr<const VaCodedBuffer>;
+    // One encoded frame in a VA coded buffer (VAEncCodedBufferType), as a VA
+    // encoder writes it. Read the bytes with vaMapBuffer().
+    struct VaCodedBuffer
+    {
+        using SPtr = std::shared_ptr<const VaCodedBuffer>;
 
-    void *display = nullptr;   // VADisplay
-    std::uint32_t buffer = 0;  // VABufferID
-    Codec codec = Codec::Unknown;
-    // Decode order. The presentation time is the Payload's timestamp.
-    std::chrono::nanoseconds decodeTime{0};
-    bool isKeyFrame = false;
-};
+        void *display = nullptr;   // VADisplay
+        std::uint32_t buffer = 0;  // VABufferID
+        Codec codec = Codec::Unknown;
+        // Decode order. The presentation time is the Payload's timestamp.
+        std::chrono::nanoseconds decodeTime{0};
+        bool isKeyFrame = false;
+    };
 
 }  // namespace Pento
 

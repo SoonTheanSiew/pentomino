@@ -29,7 +29,7 @@ AllowShortCaseLabelsOnASingleLine: false
 AllowShortBlocksOnASingleLine: Never
 AllowShortEnumsOnASingleLine: false
 
-NamespaceIndentation: None
+NamespaceIndentation: All
 FixNamespaceComments: true
 
 SortIncludes: CaseSensitive

@@ -88,7 +88,7 @@ binaries have a version suffix.
 | Pointers and references | Attached to the name: `int *frame`, `const T &value` |
 | Short bodies | Only lambdas may stay on one line. Functions, `if`, loops and `case` never do |
 | Access specifiers | 2 spaces in from `class`, members 4 spaces in. See the example below |
-| Namespaces | No extra indentation. The closing brace gets `// namespace Name` |
+| Namespaces | Contents indented 4 spaces. The closing brace gets `// namespace Name` |
 | Includes | Sorted and grouped by the format script |
 | Blank lines | At most one in a row |
 
@@ -131,37 +131,37 @@ named for the work, not as a question.
 namespace Pento
 {
 
-constexpr int MAX_RETRY_COUNT = 3;
+    constexpr int MAX_RETRY_COUNT = 3;
 
-class FrameCounter
-{
-  public:
-    using SPtr = std::shared_ptr<FrameCounter>;
-    using UPtr = std::unique_ptr<FrameCounter>;
-
-    int Count() const
+    class FrameCounter
     {
-        return m_frameCount;
-    }
+      public:
+        using SPtr = std::shared_ptr<FrameCounter>;
+        using UPtr = std::unique_ptr<FrameCounter>;
 
-    void Record(int droppedFrames)
-    {
-        for (int attempt = 0; attempt < MAX_RETRY_COUNT; ++attempt)
+        int Count() const
         {
-            if (droppedFrames > 0)
+            return m_frameCount;
+        }
+
+        void Record(int droppedFrames)
+        {
+            for (int attempt = 0; attempt < MAX_RETRY_COUNT; ++attempt)
             {
-                m_frameCount += droppedFrames;
-            }
-            else
-            {
-                ++m_frameCount;
+                if (droppedFrames > 0)
+                {
+                    m_frameCount += droppedFrames;
+                }
+                else
+                {
+                    ++m_frameCount;
+                }
             }
         }
-    }
 
-  private:
-    int m_frameCount = 0;
-};
+      private:
+        int m_frameCount = 0;
+    };
 
 }  // namespace Pento
 ```

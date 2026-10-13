@@ -10,18 +10,18 @@
 namespace Pento
 {
 
-// A raw frame in a VA surface. The surface id is only valid within its
-// display, so a node with another display imports it through a dmabuf.
-struct VaSurface
-{
-    using SPtr = std::shared_ptr<const VaSurface>;
+    // A raw frame in a VA surface. The surface id is only valid within its
+    // display, so a node with another display imports it through a dmabuf.
+    struct VaSurface
+    {
+        using SPtr = std::shared_ptr<const VaSurface>;
 
-    void *display = nullptr;    // VADisplay
-    std::uint32_t surface = 0;  // VASurfaceID
-    std::uint32_t fourcc = 0;   // VA fourcc
-    std::uint32_t width = 0;
-    std::uint32_t height = 0;
-};
+        void *display = nullptr;    // VADisplay
+        std::uint32_t surface = 0;  // VASurfaceID
+        std::uint32_t fourcc = 0;   // VA fourcc
+        std::uint32_t width = 0;
+        std::uint32_t height = 0;
+    };
 
 }  // namespace Pento
 

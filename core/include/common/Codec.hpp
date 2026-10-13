@@ -7,13 +7,13 @@
 namespace Pento
 {
 
-enum class Codec
-{
-    Unknown,  // bytes not split into frames yet, such as a container
-    H264,
-    Hevc,
-    Av1
-};
+    enum class Codec
+    {
+        Unknown,  // bytes not split into frames yet, such as a container
+        H264,
+        Hevc,
+        Av1
+    };
 
 }  // namespace Pento
 

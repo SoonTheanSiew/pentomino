@@ -15,10 +15,11 @@
 namespace Pento
 {
 
-// One of the types in the subdirectories here, held by a shared_ptr.
-// When the last Payload lets go, the deleter gives the memory back.
-using Content = std::variant<Bitstream::SPtr, VaCodedBuffer::SPtr,
-                             SystemFrame::SPtr, DmaBuf::SPtr, VaSurface::SPtr>;
+    // One of the types in the subdirectories here, held by a shared_ptr.
+    // When the last Payload lets go, the deleter gives the memory back.
+    using Content =
+        std::variant<Bitstream::SPtr, VaCodedBuffer::SPtr, SystemFrame::SPtr,
+                     DmaBuf::SPtr, VaSurface::SPtr>;
 
 }  // namespace Pento
 

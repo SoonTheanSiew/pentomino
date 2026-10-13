@@ -9,8 +9,8 @@
 namespace Pento
 {
 
-// Most formats need one to three planes, such as Y and UV for NV12.
-inline constexpr std::size_t MAX_PLANES = 4;
+    // Most formats need one to three planes, such as Y and UV for NV12.
+    inline constexpr std::size_t MAX_PLANES = 4;
 
 }  // namespace Pento
 

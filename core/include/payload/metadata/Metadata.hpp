@@ -9,16 +9,16 @@
 namespace Pento
 {
 
-// Base class of everything a node attaches to a Payload, such as detected
-// boxes. Each kind is a subclass in this directory.
-class Metadata
-{
-  public:
-    using SPtr = std::shared_ptr<Metadata>;
-    using UPtr = std::unique_ptr<Metadata>;
+    // Base class of everything a node attaches to a Payload, such as detected
+    // boxes. Each kind is a subclass in this directory.
+    class Metadata
+    {
+      public:
+        using SPtr = std::shared_ptr<Metadata>;
+        using UPtr = std::unique_ptr<Metadata>;
 
-    virtual ~Metadata() = default;
-};
+        virtual ~Metadata() = default;
+    };
 
 }  // namespace Pento
 
