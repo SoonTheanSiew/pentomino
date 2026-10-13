@@ -71,7 +71,7 @@ class EdgeTest : public ::testing::Test
 
 TEST_F(EdgeTest, CloseLetsTheQueueDrainInOrder)
 {
-    Edge edge("edge", {});
+    Edge edge("edge");
     PushAll(edge, {FIRST, SECOND, THIRD});
     edge.Close();
 
@@ -83,7 +83,7 @@ TEST_F(EdgeTest, CloseLetsTheQueueDrainInOrder)
 
 TEST_F(EdgeTest, AbortDropsWhatIsQueued)
 {
-    Edge edge("edge", {});
+    Edge edge("edge");
     auto first = MakePayload(FIRST);
     std::weak_ptr<const Payload> watcher = first;
 
@@ -98,7 +98,7 @@ TEST_F(EdgeTest, AbortDropsWhatIsQueued)
 
 TEST_F(EdgeTest, InvalidPushesAreRejected)
 {
-    Edge edge("edge", {});
+    Edge edge("edge");
     EXPECT_EQ(edge.Push(nullptr), Status::InvalidOperation);
 
     PushAll(edge, {FIRST});
@@ -164,7 +164,7 @@ TEST_F(EdgeTest, Block)
 
 TEST_F(EdgeTest, CloseWakesABlockedPop)
 {
-    Edge edge("edge", {});
+    Edge edge("edge");
     Status popped = Status::Ok;
 
     std::thread consumer([&edge, &popped] { popped = PopStatus(edge); });

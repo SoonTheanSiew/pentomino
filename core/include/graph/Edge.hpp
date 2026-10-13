@@ -49,7 +49,7 @@ namespace Pento
 
         // Graph names it "<upstream>.<output> -> <downstream>", for example
         // "demux.1 -> adec".
-        Edge(std::string name, const EdgeOptions &options);
+        explicit Edge(std::string name, const EdgeOptions &options = {});
         Edge(const Edge &) = delete;
         Edge &operator=(const Edge &) = delete;
 
