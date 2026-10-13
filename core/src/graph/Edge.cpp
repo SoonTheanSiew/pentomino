@@ -12,8 +12,9 @@
 namespace Pento
 {
 
-    Edge::Edge(const EdgeOptions &options)
-        : m_overflow(options.overflow),
+    Edge::Edge(std::string name, const EdgeOptions &options)
+        : Logging(std::move(name)),
+          m_overflow(options.overflow),
           m_slots(std::max<std::size_t>(options.capacity, 1))
     {
     }
@@ -21,7 +22,7 @@ namespace Pento
     Status Edge::Push(std::shared_ptr<const Payload> payload)
     {
         if (payload == nullptr)
-            return Status::InvalidOperation;
+            return Fail(Status::InvalidOperation, "push of a null payload");
 
         std::shared_ptr<const Payload> dropped;
 
@@ -41,7 +42,7 @@ namespace Pento
             if (m_state == State::Aborted)
                 return Status::Aborted;
             if (m_state == State::Closed)
-                return Status::InvalidOperation;
+                return Fail(Status::InvalidOperation, "push after close");
 
             if (m_size == m_slots.size())
             {

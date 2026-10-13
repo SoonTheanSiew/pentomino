@@ -71,7 +71,7 @@ class EdgeTest : public ::testing::Test
 
 TEST_F(EdgeTest, CloseLetsTheQueueDrainInOrder)
 {
-    Edge edge({});
+    Edge edge("edge", {});
     PushAll(edge, {FIRST, SECOND, THIRD});
     edge.Close();
 
@@ -83,7 +83,7 @@ TEST_F(EdgeTest, CloseLetsTheQueueDrainInOrder)
 
 TEST_F(EdgeTest, AbortDropsWhatIsQueued)
 {
-    Edge edge({});
+    Edge edge("edge", {});
     auto first = MakePayload(FIRST);
     std::weak_ptr<const Payload> watcher = first;
 
@@ -98,7 +98,7 @@ TEST_F(EdgeTest, AbortDropsWhatIsQueued)
 
 TEST_F(EdgeTest, InvalidPushesAreRejected)
 {
-    Edge edge({});
+    Edge edge("edge", {});
     EXPECT_EQ(edge.Push(nullptr), Status::InvalidOperation);
 
     PushAll(edge, {FIRST});
@@ -111,7 +111,8 @@ TEST_F(EdgeTest, InvalidPushesAreRejected)
 
 TEST_F(EdgeTest, DropOldest)
 {
-    Edge edge({.capacity = SMALL_CAPACITY, .overflow = Overflow::DropOldest});
+    Edge edge("edge",
+              {.capacity = SMALL_CAPACITY, .overflow = Overflow::DropOldest});
     auto first = MakePayload(FIRST);
     std::weak_ptr<const Payload> watcher = first;
 
@@ -126,7 +127,8 @@ TEST_F(EdgeTest, DropOldest)
 
 TEST_F(EdgeTest, DropNewest)
 {
-    Edge edge({.capacity = SMALL_CAPACITY, .overflow = Overflow::DropNewest});
+    Edge edge("edge",
+              {.capacity = SMALL_CAPACITY, .overflow = Overflow::DropNewest});
     PushAll(edge, {FIRST, SECOND, THIRD});
 
     EXPECT_EQ(edge.DroppedCount(), 1U);
@@ -137,7 +139,7 @@ TEST_F(EdgeTest, DropNewest)
 TEST_F(EdgeTest, Block)
 {
     // With one slot, the producer has to wait for every single Pop().
-    Edge edge({.capacity = 1, .overflow = Overflow::Block});
+    Edge edge("edge", {.capacity = 1, .overflow = Overflow::Block});
 
     std::thread producer(
         [&edge]
@@ -162,7 +164,7 @@ TEST_F(EdgeTest, Block)
 
 TEST_F(EdgeTest, CloseWakesABlockedPop)
 {
-    Edge edge({});
+    Edge edge("edge", {});
     Status popped = Status::Ok;
 
     std::thread consumer([&edge, &popped] { popped = PopStatus(edge); });
@@ -175,7 +177,7 @@ TEST_F(EdgeTest, CloseWakesABlockedPop)
 
 TEST_F(EdgeTest, AbortWakesABlockedPush)
 {
-    Edge edge({.capacity = 1, .overflow = Overflow::Block});
+    Edge edge("edge", {.capacity = 1, .overflow = Overflow::Block});
     PushAll(edge, {FIRST});
     Status pushed = Status::Ok;
 

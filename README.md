@@ -28,14 +28,25 @@ profile.json ┘
 
 ## Build
 
-Requirements: CMake 3.24+, and GCC 13+ or Clang 18+. nlohmann_json and
-GoogleTest are downloaded if they are not installed.
+Requirements: CMake 3.24+, and GCC 13+ or Clang 18+. nlohmann_json, spdlog
+and GoogleTest are downloaded if they are not installed.
 
 ```sh
 cmake -S . -B build
 cmake --build build
 ctest --test-dir build
 ```
+
+## Logs
+
+Logs go to stderr. `PENTO_LOG` sets the level, for everything or per node:
+
+```sh
+PENTO_LOG=debug ./pipeline
+PENTO_LOG=warn,decode=debug ./pipeline
+```
+
+Levels: `debug`, `info` (default), `warn`, `error`, `off`.
 
 ## Contributing
 

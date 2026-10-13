@@ -9,8 +9,10 @@
 #include <cstdint>
 #include <memory>
 #include <mutex>
+#include <string>
 #include <vector>
 
+#include "common/Logging.hpp"
 #include "common/Status.hpp"
 
 namespace Pento
@@ -39,13 +41,15 @@ namespace Pento
         Overflow overflow = Overflow::Block;
     };
 
-    class Edge
+    class Edge : public Logging
     {
       public:
         using SPtr = std::shared_ptr<Edge>;
         using UPtr = std::unique_ptr<Edge>;
 
-        explicit Edge(const EdgeOptions &options);
+        // Graph names it "<upstream>.<output> -> <downstream>", for example
+        // "demux.1 -> adec".
+        Edge(std::string name, const EdgeOptions &options);
         Edge(const Edge &) = delete;
         Edge &operator=(const Edge &) = delete;
 
