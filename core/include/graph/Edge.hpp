@@ -4,6 +4,9 @@
 #ifndef PENTO_CORE_GRAPH_EDGE_HPP
 #define PENTO_CORE_GRAPH_EDGE_HPP
 
+#include "common/Logging.hpp"
+#include "common/Status.hpp"
+
 #include <condition_variable>
 #include <cstddef>
 #include <cstdint>
@@ -11,9 +14,6 @@
 #include <mutex>
 #include <string>
 #include <vector>
-
-#include "common/Logging.hpp"
-#include "common/Status.hpp"
 
 namespace Pento
 {

@@ -3,11 +3,11 @@
 
 #include "graph/Edge.hpp"
 
+#include "payload/Payload.hpp"
+
 #include <algorithm>
 #include <utility>
 #include <vector>
-
-#include "payload/Payload.hpp"
 
 namespace Pento
 {

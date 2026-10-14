@@ -3,11 +3,11 @@
 
 #include "node/Node.hpp"
 
+#include "graph/Edge.hpp"
+
 #include <format>
 #include <string>
 #include <utility>
-
-#include "graph/Edge.hpp"
 
 namespace Pento
 {

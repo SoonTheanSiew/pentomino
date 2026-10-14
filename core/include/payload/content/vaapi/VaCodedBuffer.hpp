@@ -4,11 +4,11 @@
 #ifndef PENTO_CORE_PAYLOAD_CONTENT_VAAPI_VA_CODED_BUFFER_HPP
 #define PENTO_CORE_PAYLOAD_CONTENT_VAAPI_VA_CODED_BUFFER_HPP
 
+#include "common/Codec.hpp"
+
 #include <chrono>
 #include <cstdint>
 #include <memory>
-
-#include "common/Codec.hpp"
 
 namespace Pento
 {

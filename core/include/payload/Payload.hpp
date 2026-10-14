@@ -4,13 +4,13 @@
 #ifndef PENTO_CORE_PAYLOAD_PAYLOAD_HPP
 #define PENTO_CORE_PAYLOAD_PAYLOAD_HPP
 
+#include "payload/content/Content.hpp"
+#include "payload/metadata/Metadata.hpp"
+
 #include <chrono>
 #include <concepts>
 #include <memory>
 #include <vector>
-
-#include "payload/content/Content.hpp"
-#include "payload/metadata/Metadata.hpp"
 
 namespace Pento
 {

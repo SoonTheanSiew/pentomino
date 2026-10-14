@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 SoonTheanSiew
 
-#include <gtest/gtest.h>
+#include "common/Logging.hpp"
 
 #include <string>
 #include <utility>
 
-#include "common/Logging.hpp"
+#include <gtest/gtest.h>
 
 using namespace Pento;
 

@@ -4,12 +4,12 @@
 #ifndef PENTO_CORE_PAYLOAD_CONTENT_SYSTEM_BITSTREAM_HPP
 #define PENTO_CORE_PAYLOAD_CONTENT_SYSTEM_BITSTREAM_HPP
 
+#include "common/Codec.hpp"
+
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <memory>
-
-#include "common/Codec.hpp"
 
 namespace Pento
 {

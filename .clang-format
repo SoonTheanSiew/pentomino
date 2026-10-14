@@ -34,6 +34,15 @@ FixNamespaceComments: true
 
 SortIncludes: CaseSensitive
 IncludeBlocks: Regroup
+# Order: this project, the C++ standard library, then other libraries.
+# In Foo.cpp, Foo.hpp comes first of all.
+IncludeCategories:
+    - Regex: '^"'
+      Priority: 1
+    - Regex: '^<[a-z_]+>$'
+      Priority: 2
+    - Regex: '^<.*>$'
+      Priority: 3
 
 MaxEmptyLinesToKeep: 1
 ...

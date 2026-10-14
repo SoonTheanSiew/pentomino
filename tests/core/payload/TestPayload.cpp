@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 SoonTheanSiew
 
-#include <gtest/gtest.h>
+#include "payload/Payload.hpp"
 
 #include <chrono>
 #include <cstdint>
 #include <memory>
 #include <variant>
 
-#include "payload/Payload.hpp"
+#include <gtest/gtest.h>
 
 using namespace Pento;
 

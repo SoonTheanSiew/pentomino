@@ -89,7 +89,7 @@ binaries have a version suffix.
 | Short bodies | Only lambdas may stay on one line. Functions, `if`, loops and `case` never do |
 | Access specifiers | 2 spaces in from `class`, members 4 spaces in. See the example below |
 | Namespaces | Contents indented 4 spaces. The closing brace gets `// namespace Name` |
-| Includes | Sorted and grouped by the format script |
+| Includes | In this order: this project, the C++ standard library, then other libraries such as GoogleTest. In `Foo.cpp`, `Foo.hpp` comes first of all. The format script sorts them |
 | Blank lines | At most one in a row |
 
 ### Naming

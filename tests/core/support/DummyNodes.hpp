@@ -4,12 +4,12 @@
 #ifndef PENTO_TESTS_CORE_SUPPORT_DUMMY_NODES_HPP
 #define PENTO_TESTS_CORE_SUPPORT_DUMMY_NODES_HPP
 
+#include "node/Node.hpp"
+#include "payload/metadata/Metadata.hpp"
+
 #include <cstddef>
 #include <memory>
 #include <vector>
-
-#include "node/Node.hpp"
-#include "payload/metadata/Metadata.hpp"
 
 namespace Pento
 {

@@ -4,13 +4,13 @@
 #ifndef PENTO_CORE_NODE_NODE_HPP
 #define PENTO_CORE_NODE_NODE_HPP
 
+#include "common/Logging.hpp"
+#include "common/Status.hpp"
+
 #include <cstddef>
 #include <memory>
 #include <string>
 #include <vector>
-
-#include "common/Logging.hpp"
-#include "common/Status.hpp"
 
 namespace Pento
 {

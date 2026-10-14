@@ -4,12 +4,12 @@
 #ifndef PENTO_CORE_PAYLOAD_CONTENT_SYSTEM_SYSTEM_FRAME_HPP
 #define PENTO_CORE_PAYLOAD_CONTENT_SYSTEM_SYSTEM_FRAME_HPP
 
+#include "common/Planes.hpp"
+
 #include <array>
 #include <cstddef>
 #include <cstdint>
 #include <memory>
-
-#include "common/Planes.hpp"
 
 namespace Pento
 {

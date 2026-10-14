@@ -4,14 +4,14 @@
 #ifndef PENTO_CORE_COMMON_LOGGING_HPP
 #define PENTO_CORE_COMMON_LOGGING_HPP
 
-#include <spdlog/spdlog.h>
+#include "common/Status.hpp"
 
 #include <memory>
 #include <string>
 #include <string_view>
 #include <utility>
 
-#include "common/Status.hpp"
+#include <spdlog/spdlog.h>
 
 namespace Pento
 {

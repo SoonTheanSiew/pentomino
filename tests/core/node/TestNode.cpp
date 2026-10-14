@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 SoonTheanSiew
 
-#include <gtest/gtest.h>
+#include "graph/Edge.hpp"
+#include "support/DummyNodes.hpp"
 
 #include <cstddef>
 #include <vector>
 
-#include "graph/Edge.hpp"
-#include "support/DummyNodes.hpp"
+#include <gtest/gtest.h>
 
 using namespace Pento;
 

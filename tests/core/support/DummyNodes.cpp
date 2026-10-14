@@ -3,9 +3,9 @@
 
 #include "support/DummyNodes.hpp"
 
-#include <chrono>
-
 #include "payload/Payload.hpp"
+
+#include <chrono>
 
 namespace Pento
 {
