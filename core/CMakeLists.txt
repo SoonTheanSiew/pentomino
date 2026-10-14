@@ -23,6 +23,7 @@ add_library(
     STATIC
     src/common/Logging.cpp
     src/graph/Edge.cpp
+    src/node/Node.cpp
     src/payload/Payload.cpp
 )
 target_include_directories(

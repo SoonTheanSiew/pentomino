@@ -22,8 +22,11 @@ add_executable(
     pento_tests
     core/common/TestLogging.cpp
     core/graph/TestEdge.cpp
+    core/node/TestNode.cpp
     core/payload/TestPayload.cpp
+    core/support/DummyNodes.cpp
 )
+target_include_directories(pento_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/core)
 target_link_libraries(
     pento_tests
     PRIVATE pento_core pento_warnings GTest::gtest_main
