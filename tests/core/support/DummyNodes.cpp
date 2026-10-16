@@ -9,7 +9,6 @@
 
 namespace Pento
 {
-    static constexpr std::size_t INPUT_COUNT_0 = 0;
     static constexpr std::size_t INPUT_COUNT_1 = 1;
     static constexpr std::size_t OUTPUT_COUNT_0 = 0;
     static constexpr std::size_t OUTPUT_COUNT_1 = 1;
@@ -30,8 +29,7 @@ namespace Pento
     // --- DummySource ---------------------------------------------------------
 
     DummySource::DummySource(int payloadCount)
-        : Node("source", INPUT_COUNT_0, OUTPUT_COUNT_1),
-          m_payloadCount(payloadCount)
+        : Source("source"), m_payloadCount(payloadCount)
     {
     }
 

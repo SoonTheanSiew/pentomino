@@ -5,6 +5,7 @@
 #define PENTO_TESTS_CORE_SUPPORT_DUMMY_NODES_HPP
 
 #include "node/Node.hpp"
+#include "node/source/Source.hpp"
 #include "payload/metadata/Metadata.hpp"
 
 #include <cstddef>
@@ -25,7 +26,7 @@ namespace Pento
         int m_number;
     };
 
-    class DummySource : public Node
+    class DummySource : public Source
     {
       public:
         explicit DummySource(int payloadCount);

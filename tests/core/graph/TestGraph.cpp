@@ -183,3 +183,13 @@ TEST_F(GraphTest, BadConnectFailsInit)
 
     EXPECT_EQ(status, Status::InvalidOperation);
 }
+
+TEST_F(GraphTest, UnconnectedSourceFailsInit)
+{
+    Graph graph;
+    graph.Add<DummySource>(ONE_PAYLOAD);
+
+    const Status status = graph.Init();
+
+    EXPECT_EQ(status, Status::InvalidOperation);
+}

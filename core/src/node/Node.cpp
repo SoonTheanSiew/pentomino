@@ -46,6 +46,12 @@ namespace Pento
         return Status::Ok;
     }
 
+    bool Node::IsOutputConnected(std::size_t outputIndex) const
+    {
+        return outputIndex < m_outputEdges.size() &&
+               !m_outputEdges[outputIndex].empty();
+    }
+
     void Node::CloseOutputs()
     {
         for (const auto &edges : m_outputEdges)
@@ -102,9 +108,9 @@ namespace Pento
         // An output with no edge drops the payload.
         for (Edge *edge : m_outputEdges[outputIndex])
         {
-            const Status pushed = edge->Push(payload);
-            if (pushed != Status::Ok)
-                return pushed;
+            const Status status = edge->Push(payload);
+            if (status != Status::Ok)
+                return status;
         }
 
         return Status::Ok;
