@@ -41,6 +41,10 @@ namespace Pento
         // Does one unit of work, such as decoding one packet.
         virtual Status Step() = 0;
 
+        // Called by Graph before Init(). Each kind of node checks its own
+        // rules, for example that every output of a source is connected.
+        virtual Status CheckConnections() const;
+
         bool HasInput() const;  // false for a source
 
         Status ConnectInput(std::size_t inputIndex, Edge &edge);

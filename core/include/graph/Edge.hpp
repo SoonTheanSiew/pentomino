@@ -47,8 +47,8 @@ namespace Pento
         using SPtr = std::shared_ptr<Edge>;
         using UPtr = std::unique_ptr<Edge>;
 
-        // Graph names it "<upstream>.<output> -> <downstream>", for example
-        // "demux.1 -> adec".
+        // Graph names it "<upstream>.<output> -> <downstream>.<input>", for
+        // example "demux.1 -> mux.1".
         explicit Edge(std::string name, const EdgeOptions &options = {});
         Edge(const Edge &) = delete;
         Edge &operator=(const Edge &) = delete;

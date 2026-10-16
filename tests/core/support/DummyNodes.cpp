@@ -37,6 +37,9 @@ namespace Pento
 
     Status DummySource::Init()
     {
+        if (m_payloadCount < 0)
+            return Fail(Status::InvalidParam, "negative payload count");
+
         return Status::Ok;
     }
 

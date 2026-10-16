@@ -41,6 +41,11 @@ namespace Pento
         return Status::Ok;
     }
 
+    Status Node::CheckConnections() const
+    {
+        return Status::Ok;
+    }
+
     void Node::CloseOutputs()
     {
         for (const auto &edges : m_outputEdges)

@@ -22,6 +22,7 @@ add_executable(
     pento_tests
     core/common/TestLogging.cpp
     core/graph/TestEdge.cpp
+    core/graph/TestGraph.cpp
     core/node/TestNode.cpp
     core/payload/TestPayload.cpp
     core/support/DummyNodes.cpp
