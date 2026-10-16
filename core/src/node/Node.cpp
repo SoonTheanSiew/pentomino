@@ -20,22 +20,23 @@ namespace Pento
     {
     }
 
-    Status Node::ConnectInput(std::size_t index, Edge &edge)
+    Status Node::ConnectInput(std::size_t inputIndex, Edge &edge)
     {
-        if (index >= m_inputEdges.size() || m_inputEdges[index] != nullptr)
+        if (inputIndex >= m_inputEdges.size() ||
+            m_inputEdges[inputIndex] != nullptr)
             return Status::InvalidOperation;
 
-        m_inputEdges[index] = &edge;
+        m_inputEdges[inputIndex] = &edge;
 
         return Status::Ok;
     }
 
-    Status Node::ConnectOutput(std::size_t index, Edge &edge)
+    Status Node::ConnectOutput(std::size_t outputIndex, Edge &edge)
     {
-        if (index >= m_outputEdges.size())
+        if (outputIndex >= m_outputEdges.size())
             return Status::InvalidOperation;
 
-        m_outputEdges[index].push_back(&edge);
+        m_outputEdges[outputIndex].push_back(&edge);
 
         return Status::Ok;
     }
@@ -54,24 +55,25 @@ namespace Pento
         return !m_inputEdges.empty();
     }
 
-    Status Node::Pop(std::size_t input, std::shared_ptr<const Payload> &payload)
+    Status Node::Pop(std::size_t inputIndex,
+                     std::shared_ptr<const Payload> &payload)
     {
         // TODO: a mux needs to pop whichever input has data first, so no
         // input can block another.
-        if (input >= m_inputEdges.size())
+        if (inputIndex >= m_inputEdges.size())
         {
             const std::string detail = std::format(
                 "Pop() from input edge {}, but the input edge "
                 "count is {}",
-                input, m_inputEdges.size());
+                inputIndex, m_inputEdges.size());
             return Fail(Status::InvalidOperation, detail);
         }
 
-        Edge *edge = m_inputEdges[input];
+        Edge *edge = m_inputEdges[inputIndex];
         if (edge == nullptr)
         {
             const std::string detail =
-                std::format("input edge {} is not connected", input);
+                std::format("input edge {} is not connected", inputIndex);
             return Fail(Status::InvalidOperation, detail);
         }
 
@@ -79,21 +81,21 @@ namespace Pento
     }
 
     Status Node::Send(const std::shared_ptr<const Payload> &payload,
-                      std::size_t output)
+                      std::size_t outputIndex)
     {
         if (payload == nullptr)
             return Fail(Status::InvalidOperation, "Send() got a null payload");
 
-        if (output >= m_outputEdges.size())
+        if (outputIndex >= m_outputEdges.size())
         {
             const std::string detail =
                 std::format("Send() to output {}, but the output count is {}",
-                            output, m_outputEdges.size());
+                            outputIndex, m_outputEdges.size());
             return Fail(Status::InvalidOperation, detail);
         }
 
         // An output with no edge drops the payload.
-        for (Edge *edge : m_outputEdges[output])
+        for (Edge *edge : m_outputEdges[outputIndex])
         {
             const Status pushed = edge->Push(payload);
             if (pushed != Status::Ok)

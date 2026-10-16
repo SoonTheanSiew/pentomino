@@ -43,8 +43,8 @@ namespace Pento
 
         bool HasInput() const;  // false for a source
 
-        Status ConnectInput(std::size_t index, Edge &edge);
-        Status ConnectOutput(std::size_t index, Edge &edge);
+        Status ConnectInput(std::size_t inputIndex, Edge &edge);
+        Status ConnectOutput(std::size_t outputIndex, Edge &edge);
 
         void CloseOutputs();
 
@@ -55,13 +55,14 @@ namespace Pento
         // Takes the next payload from an input, waiting while it is empty.
         // Returns EndOfStream once the input has ended and Aborted when the
         // graph aborts.
-        Status Pop(std::size_t input, std::shared_ptr<const Payload> &payload);
+        Status Pop(std::size_t inputIndex,
+                   std::shared_ptr<const Payload> &payload);
 
         // Sends to every edge of the output. A full edge follows its overflow
         // rule: block, drop the oldest or drop the newest. If the result is
         // not Ok, return it from Step().
         Status Send(const std::shared_ptr<const Payload> &payload,
-                    std::size_t output = 0);
+                    std::size_t outputIndex = 0);
 
       private:
         // One edge per input, any number of edges per output.

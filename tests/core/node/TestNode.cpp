@@ -14,12 +14,15 @@ using namespace Pento;
 class NodeTest : public ::testing::Test
 {
   protected:
-    static constexpr std::size_t ONE_OUTPUT = 1;
-    static constexpr std::size_t TWO_OUTPUTS = 2;
+    static constexpr std::size_t OUTPUT_COUNT_1 = 1;
+    static constexpr std::size_t OUTPUT_COUNT_2 = 2;
 
-    static constexpr std::size_t FIRST_INPUT = 0;
-    static constexpr std::size_t VIDEO_OUTPUT = 0;
-    static constexpr std::size_t AUDIO_OUTPUT = 1;
+    static constexpr std::size_t INPUT_INDEX_0 = 0;
+    static constexpr std::size_t OUTPUT_INDEX_0 = 0;
+    static constexpr std::size_t VIDEO_OUTPUT_INDEX =
+        DummyDemux::VIDEO_OUTPUT_INDEX;
+    static constexpr std::size_t AUDIO_OUTPUT_INDEX =
+        DummyDemux::AUDIO_OUTPUT_INDEX;
 
     static constexpr int ONE_PAYLOAD = 1;
     static constexpr int TWO_PAYLOADS = 2;
@@ -36,10 +39,11 @@ TEST_F(NodeTest, PipelineRunsToEnd)
     DummyDecode decode;
     DummySink sink;
 
-    const Status sourceOut = source.ConnectOutput(VIDEO_OUTPUT, sourceToDecode);
-    const Status decodeIn = decode.ConnectInput(FIRST_INPUT, sourceToDecode);
-    const Status decodeOut = decode.ConnectOutput(VIDEO_OUTPUT, decodeToSink);
-    const Status sinkIn = sink.ConnectInput(FIRST_INPUT, decodeToSink);
+    const Status sourceOut =
+        source.ConnectOutput(OUTPUT_INDEX_0, sourceToDecode);
+    const Status decodeIn = decode.ConnectInput(INPUT_INDEX_0, sourceToDecode);
+    const Status decodeOut = decode.ConnectOutput(OUTPUT_INDEX_0, decodeToSink);
+    const Status sinkIn = sink.ConnectInput(INPUT_INDEX_0, decodeToSink);
 
     ASSERT_EQ(sourceOut, Status::Ok);
     ASSERT_EQ(decodeIn, Status::Ok);
@@ -64,16 +68,19 @@ TEST_F(NodeTest, DemuxSplitsStreams)
     Edge demuxToAudio("demux.1 -> audio");
 
     DummySource source(TWO_PAYLOADS);
-    DummyDemux demux(TWO_OUTPUTS);
+    DummyDemux demux(OUTPUT_COUNT_2);
     DummySink video;
     DummySink audio;
 
-    const Status sourceOut = source.ConnectOutput(VIDEO_OUTPUT, sourceToDemux);
-    const Status demuxIn = demux.ConnectInput(FIRST_INPUT, sourceToDemux);
-    const Status videoOut = demux.ConnectOutput(VIDEO_OUTPUT, demuxToVideo);
-    const Status audioOut = demux.ConnectOutput(AUDIO_OUTPUT, demuxToAudio);
-    const Status videoIn = video.ConnectInput(FIRST_INPUT, demuxToVideo);
-    const Status audioIn = audio.ConnectInput(FIRST_INPUT, demuxToAudio);
+    const Status sourceOut =
+        source.ConnectOutput(OUTPUT_INDEX_0, sourceToDemux);
+    const Status demuxIn = demux.ConnectInput(INPUT_INDEX_0, sourceToDemux);
+    const Status videoOut =
+        demux.ConnectOutput(VIDEO_OUTPUT_INDEX, demuxToVideo);
+    const Status audioOut =
+        demux.ConnectOutput(AUDIO_OUTPUT_INDEX, demuxToAudio);
+    const Status videoIn = video.ConnectInput(INPUT_INDEX_0, demuxToVideo);
+    const Status audioIn = audio.ConnectInput(INPUT_INDEX_0, demuxToAudio);
 
     ASSERT_EQ(sourceOut, Status::Ok);
     ASSERT_EQ(demuxIn, Status::Ok);
@@ -108,10 +115,10 @@ TEST_F(NodeTest, OneOutputFeedsTwoSinks)
     DummySink left;
     DummySink right;
 
-    const Status leftOut = source.ConnectOutput(VIDEO_OUTPUT, sourceToLeft);
-    const Status rightOut = source.ConnectOutput(VIDEO_OUTPUT, sourceToRight);
-    const Status leftIn = left.ConnectInput(FIRST_INPUT, sourceToLeft);
-    const Status rightIn = right.ConnectInput(FIRST_INPUT, sourceToRight);
+    const Status leftOut = source.ConnectOutput(OUTPUT_INDEX_0, sourceToLeft);
+    const Status rightOut = source.ConnectOutput(OUTPUT_INDEX_0, sourceToRight);
+    const Status leftIn = left.ConnectInput(INPUT_INDEX_0, sourceToLeft);
+    const Status rightIn = right.ConnectInput(INPUT_INDEX_0, sourceToRight);
 
     ASSERT_EQ(leftOut, Status::Ok);
     ASSERT_EQ(rightOut, Status::Ok);
@@ -139,13 +146,15 @@ TEST_F(NodeTest, UnconnectedOutputDropsPayload)
     Edge demuxToVideo("demux.0 -> video");
 
     DummySource source(TWO_PAYLOADS);
-    DummyDemux demux(TWO_OUTPUTS);
+    DummyDemux demux(OUTPUT_COUNT_2);
     DummySink video;
 
-    const Status sourceOut = source.ConnectOutput(VIDEO_OUTPUT, sourceToDemux);
-    const Status demuxIn = demux.ConnectInput(FIRST_INPUT, sourceToDemux);
-    const Status videoOut = demux.ConnectOutput(VIDEO_OUTPUT, demuxToVideo);
-    const Status videoIn = video.ConnectInput(FIRST_INPUT, demuxToVideo);
+    const Status sourceOut =
+        source.ConnectOutput(OUTPUT_INDEX_0, sourceToDemux);
+    const Status demuxIn = demux.ConnectInput(INPUT_INDEX_0, sourceToDemux);
+    const Status videoOut =
+        demux.ConnectOutput(VIDEO_OUTPUT_INDEX, demuxToVideo);
+    const Status videoIn = video.ConnectInput(INPUT_INDEX_0, demuxToVideo);
 
     ASSERT_EQ(sourceOut, Status::Ok);
     ASSERT_EQ(demuxIn, Status::Ok);
@@ -170,10 +179,11 @@ TEST_F(NodeTest, MissingOutputFails)
     // A demuxer that gets audio but has only a video output.
     Edge sourceToDemux("source -> demux");
     DummySource source(TWO_PAYLOADS);
-    DummyDemux demux(ONE_OUTPUT);
+    DummyDemux demux(OUTPUT_COUNT_1);
 
-    const Status sourceOut = source.ConnectOutput(VIDEO_OUTPUT, sourceToDemux);
-    const Status demuxIn = demux.ConnectInput(FIRST_INPUT, sourceToDemux);
+    const Status sourceOut =
+        source.ConnectOutput(OUTPUT_INDEX_0, sourceToDemux);
+    const Status demuxIn = demux.ConnectInput(INPUT_INDEX_0, sourceToDemux);
     ASSERT_EQ(sourceOut, Status::Ok);
     ASSERT_EQ(demuxIn, Status::Ok);
 
@@ -189,7 +199,7 @@ TEST_F(NodeTest, AbortedInputStopsSink)
     Edge input("source -> sink");
     DummySink sink;
 
-    const Status sinkIn = sink.ConnectInput(FIRST_INPUT, input);
+    const Status sinkIn = sink.ConnectInput(INPUT_INDEX_0, input);
     ASSERT_EQ(sinkIn, Status::Ok);
 
     input.Abort();
@@ -206,7 +216,7 @@ TEST_F(NodeTest, AbortedOutputStopsSource)
     Edge output("source -> sink");
 
     DummySource source(TWO_PAYLOADS);
-    const Status sourceOut = source.ConnectOutput(VIDEO_OUTPUT, output);
+    const Status sourceOut = source.ConnectOutput(OUTPUT_INDEX_0, output);
     ASSERT_EQ(sourceOut, Status::Ok);
 
     output.Abort();
@@ -232,12 +242,12 @@ TEST_F(NodeTest, BadConnectFails)
     DummySource source(ONE_PAYLOAD);
     DummySink sink;
 
-    const Status connected = sink.ConnectInput(FIRST_INPUT, first);
+    const Status connected = sink.ConnectInput(INPUT_INDEX_0, first);
     ASSERT_EQ(connected, Status::Ok);
 
-    const Status inputOnSource = source.ConnectInput(FIRST_INPUT, first);
-    const Status secondInput = sink.ConnectInput(FIRST_INPUT, second);
-    const Status outputOnSink = sink.ConnectOutput(VIDEO_OUTPUT, second);
+    const Status inputOnSource = source.ConnectInput(INPUT_INDEX_0, first);
+    const Status secondInput = sink.ConnectInput(INPUT_INDEX_0, second);
+    const Status outputOnSink = sink.ConnectOutput(OUTPUT_INDEX_0, second);
 
     EXPECT_EQ(inputOnSource, Status::InvalidOperation);
     EXPECT_EQ(secondInput, Status::InvalidOperation);

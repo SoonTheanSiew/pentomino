@@ -9,11 +9,11 @@
 
 namespace Pento
 {
-    static constexpr std::size_t NO_INPUT = 0;
-    static constexpr std::size_t ONE_INPUT = 1;
-    static constexpr std::size_t NO_OUTPUT = 0;
-    static constexpr std::size_t ONE_OUTPUT = 1;
-    static constexpr std::size_t FIRST_INPUT = 0;
+    static constexpr std::size_t INPUT_COUNT_0 = 0;
+    static constexpr std::size_t INPUT_COUNT_1 = 1;
+    static constexpr std::size_t OUTPUT_COUNT_0 = 0;
+    static constexpr std::size_t OUTPUT_COUNT_1 = 1;
+    static constexpr std::size_t INPUT_INDEX_0 = 0;
     static constexpr std::chrono::nanoseconds NO_TIME{0};
 
     // --- DummyTag ------------------------------------------------------------
@@ -30,7 +30,8 @@ namespace Pento
     // --- DummySource ---------------------------------------------------------
 
     DummySource::DummySource(int payloadCount)
-        : Node("source", NO_INPUT, ONE_OUTPUT), m_payloadCount(payloadCount)
+        : Node("source", INPUT_COUNT_0, OUTPUT_COUNT_1),
+          m_payloadCount(payloadCount)
     {
     }
 
@@ -61,7 +62,7 @@ namespace Pento
     // --- DummyDemux ----------------------------------------------------------
 
     DummyDemux::DummyDemux(std::size_t outputCount)
-        : Node("demux", ONE_INPUT, outputCount)
+        : Node("demux", INPUT_COUNT_1, outputCount)
     {
     }
 
@@ -77,21 +78,22 @@ namespace Pento
     Status DummyDemux::Step()
     {
         std::shared_ptr<const Payload> input;
-        const Status popped = Pop(FIRST_INPUT, input);
+        const Status popped = Pop(INPUT_INDEX_0, input);
 
         if (popped != Status::Ok)
             return popped;
 
-        const Status sent = Send(input, m_nextOutput);
-        m_nextOutput =
-            m_nextOutput == VIDEO_OUTPUT ? AUDIO_OUTPUT : VIDEO_OUTPUT;
+        const Status sent = Send(input, m_nextOutputIndex);
+        m_nextOutputIndex = m_nextOutputIndex == VIDEO_OUTPUT_INDEX
+                                ? AUDIO_OUTPUT_INDEX
+                                : VIDEO_OUTPUT_INDEX;
 
         return sent;
     }
 
     // --- DummyDecode ---------------------------------------------------------
 
-    DummyDecode::DummyDecode() : Node("decode", ONE_INPUT, ONE_OUTPUT)
+    DummyDecode::DummyDecode() : Node("decode", INPUT_COUNT_1, OUTPUT_COUNT_1)
     {
     }
 
@@ -107,7 +109,7 @@ namespace Pento
     Status DummyDecode::Step()
     {
         std::shared_ptr<const Payload> input;
-        const Status popped = Pop(FIRST_INPUT, input);
+        const Status popped = Pop(INPUT_INDEX_0, input);
 
         if (popped != Status::Ok)
             return popped;
@@ -117,7 +119,7 @@ namespace Pento
 
     // --- DummySink -----------------------------------------------------------
 
-    DummySink::DummySink() : Node("sink", ONE_INPUT, NO_OUTPUT)
+    DummySink::DummySink() : Node("sink", INPUT_COUNT_1, OUTPUT_COUNT_0)
     {
     }
 
@@ -138,7 +140,7 @@ namespace Pento
     Status DummySink::Step()
     {
         std::shared_ptr<const Payload> input;
-        const Status popped = Pop(FIRST_INPUT, input);
+        const Status popped = Pop(INPUT_INDEX_0, input);
 
         if (popped != Status::Ok)
             return popped;

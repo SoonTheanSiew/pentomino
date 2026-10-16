@@ -44,8 +44,8 @@ namespace Pento
     class DummyDemux : public Node
     {
       public:
-        static constexpr std::size_t VIDEO_OUTPUT = 0;
-        static constexpr std::size_t AUDIO_OUTPUT = 1;
+        static constexpr std::size_t VIDEO_OUTPUT_INDEX = 0;
+        static constexpr std::size_t AUDIO_OUTPUT_INDEX = 1;
 
         explicit DummyDemux(std::size_t outputCount);
 
@@ -54,7 +54,7 @@ namespace Pento
         Status Step() override;
 
       private:
-        std::size_t m_nextOutput = VIDEO_OUTPUT;
+        std::size_t m_nextOutputIndex = VIDEO_OUTPUT_INDEX;
     };
 
     // Sends every payload on as soon as it comes in.
