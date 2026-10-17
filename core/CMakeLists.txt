@@ -33,3 +33,26 @@ target_include_directories(
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 target_link_libraries(pento_core PUBLIC spdlog::spdlog PRIVATE pento_warnings)
+
+# --- framework nodes ------------------------------------------------------
+# The nodes of a framework build only when its development files are found.
+find_package(PkgConfig QUIET)
+if(PkgConfig_FOUND)
+    pkg_check_modules(FFMPEG QUIET IMPORTED_TARGET libavformat libavutil)
+endif()
+
+if(FFMPEG_FOUND)
+    add_library(
+        pento_ffmpeg
+        STATIC
+        src/common/ffmpeg/FfmpegError.cpp
+        src/node/source/ffmpeg/FfmpegFileSource.cpp
+    )
+    target_link_libraries(
+        pento_ffmpeg
+        PUBLIC pento_core PkgConfig::FFMPEG
+        PRIVATE pento_warnings
+    )
+else()
+    message(STATUS "FFmpeg not found, its nodes are not built")
+endif()

@@ -33,5 +33,13 @@ target_link_libraries(
     PRIVATE pento_core pento_warnings GTest::gtest_main
 )
 
+if(TARGET pento_ffmpeg)
+    target_sources(
+        pento_tests
+        PRIVATE core/node/source/ffmpeg/TestFfmpegFileSource.cpp
+    )
+    target_link_libraries(pento_tests PRIVATE pento_ffmpeg)
+endif()
+
 include(GoogleTest)
 gtest_discover_tests(pento_tests)
