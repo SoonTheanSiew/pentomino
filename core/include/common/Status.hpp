@@ -34,7 +34,8 @@ namespace Pento
         DeviceNotFound,    // no GPU, NPU or other device to run on
         DeviceFailed,      // the driver or device reported an error
         OutOfMemory,       // an allocation failed, on the host or a device
-        Timeout            // something did not answer in time
+        Timeout,           // something did not answer in time
+        UnknownError       // none of the above fits, the log has the details
     };
 
     // Neither Ok, EndOfStream nor Aborted.
@@ -86,6 +87,8 @@ namespace Pento
                 return "OutOfMemory";
             case Status::Timeout:
                 return "Timeout";
+            case Status::UnknownError:
+                return "UnknownError";
         }
         return "Unknown";
     }
