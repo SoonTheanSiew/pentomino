@@ -41,5 +41,13 @@ if(TARGET pento_ffmpeg)
     target_link_libraries(pento_tests PRIVATE pento_ffmpeg)
 endif()
 
+if(TARGET pento_gstreamer)
+    target_sources(
+        pento_tests
+        PRIVATE core/node/source/gstreamer/TestGstFileSource.cpp
+    )
+    target_link_libraries(pento_tests PRIVATE pento_gstreamer)
+endif()
+
 include(GoogleTest)
 gtest_discover_tests(pento_tests)

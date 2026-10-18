@@ -68,8 +68,10 @@ if(GSTREAMER_FOUND)
     add_library(
         pento_gstreamer
         STATIC
+        src/common/gstreamer/GstAppPipeline.cpp
         src/common/gstreamer/GstContent.cpp
         src/common/gstreamer/GstError.cpp
+        src/node/source/gstreamer/GstFileSource.cpp
     )
     target_link_libraries(
         pento_gstreamer
