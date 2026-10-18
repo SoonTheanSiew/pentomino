@@ -39,6 +39,13 @@ target_link_libraries(pento_core PUBLIC spdlog::spdlog PRIVATE pento_warnings)
 find_package(PkgConfig QUIET)
 if(PkgConfig_FOUND)
     pkg_check_modules(FFMPEG QUIET IMPORTED_TARGET libavformat libavutil)
+    pkg_check_modules(
+        GSTREAMER
+        QUIET
+        IMPORTED_TARGET
+        gstreamer-1.0
+        gstreamer-app-1.0
+    )
 endif()
 
 if(FFMPEG_FOUND)
@@ -55,4 +62,20 @@ if(FFMPEG_FOUND)
     )
 else()
     message(STATUS "FFmpeg not found, its nodes are not built")
+endif()
+
+if(GSTREAMER_FOUND)
+    add_library(
+        pento_gstreamer
+        STATIC
+        src/common/gstreamer/GstContent.cpp
+        src/common/gstreamer/GstError.cpp
+    )
+    target_link_libraries(
+        pento_gstreamer
+        PUBLIC pento_core PkgConfig::GSTREAMER
+        PRIVATE pento_warnings
+    )
+else()
+    message(STATUS "GStreamer not found, its nodes are not built")
 endif()
