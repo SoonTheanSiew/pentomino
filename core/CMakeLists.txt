@@ -25,6 +25,7 @@ add_library(
     src/graph/Edge.cpp
     src/graph/Graph.cpp
     src/node/Node.cpp
+    src/node/decode/Decode.cpp
     src/node/source/Source.cpp
     src/payload/Payload.cpp
 )

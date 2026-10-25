@@ -11,7 +11,6 @@ namespace Pento
 {
     static constexpr std::size_t INPUT_COUNT_1 = 1;
     static constexpr std::size_t OUTPUT_COUNT_0 = 0;
-    static constexpr std::size_t OUTPUT_COUNT_1 = 1;
     static constexpr std::size_t INPUT_INDEX_0 = 0;
     static constexpr std::chrono::nanoseconds NO_TIME{0};
 
@@ -94,7 +93,7 @@ namespace Pento
 
     // --- DummyDecode ---------------------------------------------------------
 
-    DummyDecode::DummyDecode() : Node("decode", INPUT_COUNT_1, OUTPUT_COUNT_1)
+    DummyDecode::DummyDecode() : Decode("decode", {})
     {
     }
 

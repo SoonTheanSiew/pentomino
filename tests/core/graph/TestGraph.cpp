@@ -184,6 +184,18 @@ TEST_F(GraphTest, BadConnectFailsInit)
     EXPECT_EQ(status, Status::InvalidOperation);
 }
 
+TEST_F(GraphTest, UnconnectedDecodeFailsInit)
+{
+    Graph graph;
+    auto &source = graph.Add<DummySource>(ONE_PAYLOAD);
+    auto &decode = graph.Add<DummyDecode>();
+    graph.Connect(source, decode);
+
+    const Status status = graph.Init();
+
+    EXPECT_EQ(status, Status::InvalidOperation);
+}
+
 TEST_F(GraphTest, UnconnectedSourceFailsInit)
 {
     Graph graph;

@@ -46,6 +46,12 @@ namespace Pento
         return Status::Ok;
     }
 
+    bool Node::IsInputConnected(std::size_t inputIndex) const
+    {
+        return inputIndex < m_inputEdges.size() &&
+               m_inputEdges[inputIndex] != nullptr;
+    }
+
     bool Node::IsOutputConnected(std::size_t outputIndex) const
     {
         return outputIndex < m_outputEdges.size() &&

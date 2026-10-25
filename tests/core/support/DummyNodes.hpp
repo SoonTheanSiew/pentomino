@@ -5,6 +5,7 @@
 #define PENTO_TESTS_CORE_SUPPORT_DUMMY_NODES_HPP
 
 #include "node/Node.hpp"
+#include "node/decode/Decode.hpp"
 #include "node/source/Source.hpp"
 #include "payload/metadata/Metadata.hpp"
 
@@ -59,7 +60,7 @@ namespace Pento
     };
 
     // Sends every payload on as soon as it comes in.
-    class DummyDecode : public Node
+    class DummyDecode : public Decode
     {
       public:
         DummyDecode();

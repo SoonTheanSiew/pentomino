@@ -56,6 +56,7 @@ namespace Pento
         // `name` is the node id from the graph file.
         Node(std::string name, std::size_t inputCount, std::size_t outputCount);
 
+        bool IsInputConnected(std::size_t inputIndex) const;
         bool IsOutputConnected(std::size_t outputIndex) const;
 
         // Takes the next payload from an input, waiting while it is empty.
